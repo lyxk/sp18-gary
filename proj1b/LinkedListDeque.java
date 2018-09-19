@@ -1,5 +1,5 @@
 /** Deque: double-endede queue implemented using linked list*/
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class ItemNode {
         public T item;
         public ItemNode prev;
@@ -22,24 +22,28 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
+    @Override
     public void addFirst(T item) {
         ItemNode newnode = new ItemNode(item, sentinel, sentinel.next);
         sentinel.next.prev = newnode;
         sentinel.next = newnode;
         size += 1;
     }
+    @Override
     public void addLast(T item) {
         ItemNode newnode = new ItemNode(item, sentinel.prev, sentinel);
         sentinel.prev.next = newnode;
         sentinel.prev = newnode;
         size += 1;
     }
+    @Override
     public boolean isEmpty() {
         if (size == 0) {
             return true;
         }
         return false;
     }
+    @Override
     public void printDeque() {
         if (isEmpty()) {
             System.out.println();
@@ -50,6 +54,7 @@ public class LinkedListDeque<T> {
         }
         System.out.println();
     }
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -61,6 +66,7 @@ public class LinkedListDeque<T> {
         size -= 1;
         return value;
     }
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -72,6 +78,7 @@ public class LinkedListDeque<T> {
         size -= 1;
         return value;
     }
+    @Override
     public T get(int index) {
         if (isEmpty()) {
             return null;
@@ -95,6 +102,7 @@ public class LinkedListDeque<T> {
         return getRecursiveHelper(start, index);
 
     }
+    @Override
     public int size() {
         return size;
     }

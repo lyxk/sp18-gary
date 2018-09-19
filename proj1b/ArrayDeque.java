@@ -1,5 +1,5 @@
 /** Deque: double-endede queue implemented using circular array*/
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
     private int head;
@@ -29,6 +29,7 @@ public class ArrayDeque<T> {
         }
         items = a;
     }
+    @Override
     public void addFirst(T item) {
         int len = items.length;
         if (size == len) {
@@ -46,6 +47,7 @@ public class ArrayDeque<T> {
         items[head] = item;
         size += 1;
     }
+    @Override
     public void addLast(T item) {
         int len = items.length;
         if (size == len) {
@@ -57,12 +59,15 @@ public class ArrayDeque<T> {
         items[tail] = item;
         size += 1;
     }
+    @Override
     public boolean isEmpty() {
         return (size == 0);
     }
+    @Override
     public int size() {
         return size;
     }
+    @Override
     public void printDeque() {
         int len = items.length;
         for (int i = head; i != tail; i = (i + 1) % len) {
@@ -71,6 +76,7 @@ public class ArrayDeque<T> {
         System.out.print(items[tail]);
         System.out.println();
     }
+    @Override
     public T removeFirst() {
         int len = items.length;
         T value = items[head];
@@ -82,6 +88,7 @@ public class ArrayDeque<T> {
         }
         return value;
     }
+    @Override
     public T removeLast() {
         int len = items.length;
         T value = items[tail];
@@ -99,6 +106,7 @@ public class ArrayDeque<T> {
         }
         return value;
     }
+    @Override
     public T get(int index) {
         if(index >= size || index < 0) {
             System.out.print("Index out of range!");
