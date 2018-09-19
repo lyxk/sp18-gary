@@ -1,4 +1,8 @@
 /** Performs some basic array tests. */
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+
 public class ArrayDequeTest {
 
     /* Utility method for printing out empty checks. */
@@ -97,6 +101,7 @@ public class ArrayDequeTest {
         printTestStatus(passed);
     }
 
+    /**
     public static void headTailTest() {
 
         System.out.println("Running index test.");
@@ -128,7 +133,47 @@ public class ArrayDequeTest {
 
         printTestStatus(passed);
     }
+     */
 
+    @Test
+    public void randomTest() {
+        ArrayDeque<Integer> arrd = new ArrayDeque<>();
+
+        arrd.addLast(0);// 0 * * * * * * *
+        arrd.addFirst(1);//
+        arrd.addLast(2);
+        arrd.addLast(3);
+        arrd.addLast(4);
+        arrd.addLast(5);
+        arrd.addFirst(6);
+        arrd.addFirst(7);
+        arrd.addLast(8);
+        arrd.addFirst(9);
+        assertEquals(8, (int) arrd.removeLast());
+        assertEquals(9, (int) arrd.removeFirst());
+        assertEquals(1, (int) arrd.get(2));
+        assertEquals(5, (int) arrd.removeLast());
+        assertEquals(4, (int) arrd.removeLast());
+        assertEquals(3, (int) arrd.removeLast());
+        arrd.addFirst(16);
+        assertEquals(2, (int) arrd.removeLast());
+        assertEquals(0, (int) arrd.removeLast());
+        assertEquals(1, (int) arrd.removeLast());
+        assertEquals(6, (int) arrd.get(2));
+       /* arrd.removeLast()      ;==> 8
+        arrd.removeFirst()     =;=> 9
+        arrd.get(2)      ==> 1;
+        arrd.removeLast()      ;==> 5
+        arrd.removeLast()      =;=> 4
+        arrd.removeLast()      ==;> 3
+        arrd.addFirst(16);
+        arrd.removeLast()      =;=> 2
+        arrd.removeLast()      ==;> 0
+        arrd.removeLast()      ==>; 1
+        arrd.get(2)      ==> null;*/
+    }
+
+    /**
     public static void resizeTest() {
 
         System.out.println("Running resizing test.");
@@ -151,12 +196,13 @@ public class ArrayDequeTest {
 
         printTestStatus(passed);
     }
+     */
 
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
         addIsEmptySizeTest();
         addRemoveTest();
-        headTailTest();
-        resizeTest();
+        //headTailTest();
+        //resizeTest();
     }
 }

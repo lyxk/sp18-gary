@@ -13,46 +13,66 @@ public class ArrayDeque<T> {
         tail = 0;
     }
 
+    private int head() {
+        return head;
+    }
+    private int tail() {
+        return tail;
+    }
+    private int mod(int a, int b) {
+        // Only consider cases when b >= 0
+        int result = a % b;
+        if (result < 0) {
+            // -1 % 8 = -1, -1 + 8 = 7, avoid getting negative indices
+            result += b;
+        }
+        return result;
+    }
+    private boolean afterRemovalEmpty() {
+        return (size == 1);
+    }
+    private float usage(){
+        return (float) size / items.length;
+    }
     private void resize(int capacity) {
         T[] a = (T []) new Object[capacity];
         if (tail >= head) {
             System.arraycopy(items, head, a, 0, size);
+            head = 0;
+            tail = size - 1;
         }
         else {
-            int len = items.length;
-            // e.g. len = 8, head = 4, offset = -4, there are 4, 5, 6, 7, four elements, # elements = -offset
-            int offset = head - len;
+            /*// e.g. len = 8, head = 4, offset = -4, there are 4, 5, 6, 7, four elements, # elements = -offset
+            int offset = head - items.length;
             System.arraycopy(items, 0, a, 0, tail + 1);
             // e.g. len = 8, head = 4, offset = -4, there are 4, 5, 6, 7, four elements, # elements = -offset
             System.arraycopy(items, head, a, offset + capacity, -offset);
-            head = offset + capacity;
+            head = offset + capacity;*/
+            int num_upper = items.length - head;
+            int num_lower = tail + 1;
+            System.arraycopy(items, head, a, 0, num_upper);
+            System.arraycopy(items, 0, a, num_upper, num_lower);
+            head = 0;
+            tail = size - 1;
         }
         items = a;
     }
     public void addFirst(T item) {
-        int len = items.length;
-        if (size == len) {
+        if (size == items.length) {
             resize(2 * size);
         }
         if (!isEmpty()) {
-            if (head == 0) {
-                // -1 % 8 = -1, -1 + 8 = 7, avoid getting negative indices
-                head = (head - 1) % len + len;
-            }
-            else {
-                head = (head - 1) % len;
-            }
+            head = mod(head - 1, items.length);
         }
         items[head] = item;
         size += 1;
     }
     public void addLast(T item) {
-        int len = items.length;
-        if (size == len) {
+        if (size == items.length) {
             resize(2 * size);
         }
         if (!isEmpty()) {
-            tail = (tail + 1) % len;
+            tail = mod(tail + 1, items.length);
         }
         items[tail] = item;
         size += 1;
@@ -64,38 +84,37 @@ public class ArrayDeque<T> {
         return size;
     }
     public void printDeque() {
-        int len = items.length;
-        for (int i = head; i != tail; i = (i + 1) % len) {
+        for (int i = head; i != tail; i = mod(i + 1, items.length)) {
             System.out.print(items[i] + " ");
         }
         System.out.print(items[tail]);
         System.out.println();
     }
     public T removeFirst() {
-        int len = items.length;
         T value = items[head];
         items[head] = null;
-        head = (head + 1) % len;
-        size -= 1;
-        if (len >= 16 && (size / len) < 0.25) {
-            resize(len / 2);
+        if (!isEmpty()) {
+            if (!afterRemovalEmpty()) {
+                head = mod(head + 1, items.length);
+            }
+            size -= 1;
+        }
+        if (items.length >= 16 && usage() < 0.25) {
+            resize(items.length / 2);
         }
         return value;
     }
     public T removeLast() {
-        int len = items.length;
         T value = items[tail];
         items[tail] = null;
-        if (tail == 0) {
-            // -1 % 8 = -1, -1 + 8 = 7, avoid getting negative indices
-            tail = (tail - 1) % len + len;
+        if (!isEmpty()) {
+            if (!afterRemovalEmpty()) {
+                tail = mod(tail - 1, items.length);
+            }
+            size -= 1;
         }
-        else {
-            tail = (tail - 1) % len;
-        }
-        size -= 1;
-        if (len >= 16 && (size / len) < 0.25) {
-            resize(len / 2);
+        if (items.length >= 16 && usage() < 0.25) {
+            resize(items.length / 2);
         }
         return value;
     }
@@ -104,13 +123,6 @@ public class ArrayDeque<T> {
             System.out.print("Index out of range!");
             return null;
         }
-        int len = items.length;
-        return items[(head + index) %  len];
-    }
-    public int head() {
-        return head;
-    }
-    public int tail() {
-        return tail;
+        return items[mod(head + index, items.length)];
     }
 }

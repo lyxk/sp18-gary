@@ -5,15 +5,15 @@ public class LinkedListDeque<T> {
         public ItemNode prev;
         public ItemNode next;
 
-        public ItemNode(T x, ItemNode p, ItemNode n) {
+        private ItemNode(T x, ItemNode p, ItemNode n) {
             item = x;
             prev = p;
             next = n;
         }
     }
 
-    ItemNode sentinel;
-    int size;
+    private ItemNode sentinel;
+    private int size;
 
     public LinkedListDeque() {
         sentinel = new ItemNode(null, null, null);
