@@ -5,15 +5,15 @@ public class LinkedListDeque<T> implements Deque<T> {
         public ItemNode prev;
         public ItemNode next;
 
-        public ItemNode(T x, ItemNode p, ItemNode n) {
+        private ItemNode(T x, ItemNode p, ItemNode n) {
             item = x;
             prev = p;
             next = n;
         }
     }
 
-    ItemNode sentinel;
-    int size;
+    private ItemNode sentinel;
+    private int size;
 
     public LinkedListDeque() {
         sentinel = new ItemNode(null, null, null);
@@ -22,28 +22,24 @@ public class LinkedListDeque<T> implements Deque<T> {
         size = 0;
     }
 
-    @Override
     public void addFirst(T item) {
         ItemNode newnode = new ItemNode(item, sentinel, sentinel.next);
         sentinel.next.prev = newnode;
         sentinel.next = newnode;
         size += 1;
     }
-    @Override
     public void addLast(T item) {
         ItemNode newnode = new ItemNode(item, sentinel.prev, sentinel);
         sentinel.prev.next = newnode;
         sentinel.prev = newnode;
         size += 1;
     }
-    @Override
     public boolean isEmpty() {
         if (size == 0) {
             return true;
         }
         return false;
     }
-    @Override
     public void printDeque() {
         if (isEmpty()) {
             System.out.println();
@@ -54,7 +50,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         }
         System.out.println();
     }
-    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -66,7 +61,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         size -= 1;
         return value;
     }
-    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -78,7 +72,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         size -= 1;
         return value;
     }
-    @Override
     public T get(int index) {
         if (isEmpty()) {
             return null;
@@ -102,7 +95,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         return getRecursiveHelper(start, index);
 
     }
-    @Override
     public int size() {
         return size;
     }
